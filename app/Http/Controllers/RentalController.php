@@ -36,11 +36,11 @@ class RentalController extends Controller
                     'rental_date' => ['Tanggal mulai tidak boleh lebih dari tanggal selesai'],
                 ]);
             }
-            // if ($startDate < now()) {
-            //     throw ValidationException::withMessages([
-            //         'rental_date' => ['Tanggal mulai tidak boleh kurang dari hari ini'],
-            //     ]);
-            // }
+            if ($startDate < now()) {
+                throw ValidationException::withMessages([
+                    'rental_date' => ['Tanggal mulai tidak boleh kurang dari hari ini'],
+                ]);
+            }
             $exist = Rental::where('car_id', $request->car_id)
                 ->where(function ($query) use ($startDate, $endDate) {
                     return $query->whereBetween(DB::raw("DATE(`rental_date`)"), [$startDate, $endDate])
@@ -67,27 +67,4 @@ class RentalController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
